@@ -447,24 +447,31 @@ function sendFeedback() {
     });
 }
 
-// ─── SAVE TO SHEETS ───────────────────────────────────────────────────────────
+// ─── SAVE TO SHEETS (GET + JSONP per compatibilità Apps Script) ──────────────
 function saveFeedback(data) {
-  const payload = {
-    nome:      nome || 'Anonimo',
-    tipo_paziente: tipo,
-    valutazione: data.rating,
-    testo:     data.testo,
-    canale:    data.canale,
-    sede:      data.sede,
-    tipo_feedback: data.tipo,
-    timestamp: new Date().toISOString()
-  };
+  return new Promise((resolve) => {
+    const params = new URLSearchParams({
+      action:        'feedback',
+      nome:          nome || 'Anonimo',
+      tipo_paziente: tipo,
+      valutazione:   data.rating,
+      testo:         data.testo || '',
+      canale:        data.canale,
+      sede:          data.sede,
+      tipo_feedback: data.tipo,
+      timestamp:     new Date().toISOString(),
+      callback:      'handleFeedbackResponse'
+    });
 
-  return fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    window.handleFeedbackResponse = function() { resolve(); };
+
+    const script = document.createElement('script');
+    script.src = APPS_SCRIPT_URL + '?' + params.toString();
+    script.onerror = () => resolve(); // risolvi anche in caso di errore
+    document.body.appendChild(script);
+
+    // Timeout di sicurezza
+    setTimeout(resolve, 5000);
   });
 }
 </script>
