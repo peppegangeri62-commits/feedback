@@ -151,24 +151,42 @@ function carica(){
   });
 }
 
+// ── AGGIORNAMENTO DB AL CLICK WA ─────────────────────────────
+// Usa due canali: JSONP immediato + sessionStorage come backup.
+// Se il browser interrompe la richiesta (es. apre WhatsApp e naviga via),
+// l'aggiornamento parte comunque alla prossima apertura della pagina.
+function aggiornaDB(nomePaziente) {
+  if (!nomePaziente) return;
+  const params = new URLSearchParams({ action: 'setUltimaRichiesta', paziente: nomePaziente });
+  jsonp(SCRIPT_URL + '?' + params.toString(), null);
+}
+
+// All'avvio della pagina: invia eventuali aggiornamenti pendenti
+(function checkPendingUpdate() {
+  try {
+    const pending = sessionStorage.getItem('pendingWAUpdate');
+    if (pending) {
+      sessionStorage.removeItem('pendingWAUpdate');
+      aggiornaDB(pending);
+    }
+  } catch(e) {}
+})();
+
 // ── CLICK BOTTONE WA ──────────────────────────────────────────
-// 1. Apre WhatsApp  2. Disabilita il bottone  3. Aggiorna Ultima Richiesta nel DB
 function inviaWA(el) {
   const linkWA = el.dataset.wa;
   const key    = el.dataset.key;
-  // Apri WhatsApp
-  window.open(linkWA, '_blank');
   // Disabilita subito il bottone
   el.className = 'wa-btn nd';
   el.onclick   = null;
-  // Rimuovi da waData così rimane grigio anche se si ridisegna
   if(key && waData[key]) delete waData[key];
-  // Aggiorna Ultima Richiesta nel DB pazienti
   const nomePaziente = key ? key.split('|')[0] : '';
-  if(nomePaziente){
-    const params = new URLSearchParams({ action:'setUltimaRichiesta', paziente:nomePaziente });
-    jsonp(SCRIPT_URL+'?'+params.toString(), null);
-  }
+  // Canale 1: JSONP immediato
+  aggiornaDB(nomePaziente);
+  // Canale 2: backup in sessionStorage (inviato alla riapertura se JSONP fallisce)
+  try { sessionStorage.setItem('pendingWAUpdate', nomePaziente); } catch(e) {}
+  // Apri WhatsApp
+  window.open(linkWA, '_blank');
 }
 
 function getSaved(fascia,paziente){ return (calData.assegnazioni||{})[`${studio}|${fascia}|${paziente}`]||{terapista:'',terapista2:'',prestazione:'',prezzo:''}; }
