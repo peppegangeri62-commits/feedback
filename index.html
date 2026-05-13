@@ -1,310 +1,93 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agenda PosturalLAB</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f0f4f8;color:#222;padding:12px}
-.header{background:#1F3864;color:#fff;padding:12px 16px;border-radius:10px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.header h1{font-size:17px;font-weight:600}
-.top{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.sb{padding:7px 16px;border-radius:8px;border:1.5px solid #ccc;background:#fff;color:#444;font-size:13px;font-weight:600;cursor:pointer}
-.sb.active{background:#1F3864;color:#fff;border-color:#1F3864}
-.nav{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.nav-btn{padding:6px 14px;border-radius:8px;border:1px solid #ccc;background:#fff;font-size:13px;cursor:pointer}
-.nav-btn:hover{background:#e8f0fe}
-.nav-label{font-size:14px;font-weight:600;flex:1;text-align:center;color:#1F3864}
-.tbar{background:#1F3864;color:#fff;padding:9px 14px;border-radius:8px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.tbar-title{font-size:13px;font-weight:600}
-.tbar-right{display:flex;align-items:center;gap:8px}
-.badge{background:#2E75B6;color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;white-space:nowrap}
-.rbtn{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:12px;padding:3px 10px;border-radius:20px;cursor:pointer}
-.rbtn:hover{background:rgba(255,255,255,.35)}
-.abar{background:#fff3cd;border:1px solid #f0c040;border-radius:8px;padding:7px 12px;margin-bottom:10px;font-size:12px;color:#7a5800;display:none}
-.abar.show{display:block}
-.slot{border:1px solid #dce3ed;border-radius:10px;margin-bottom:10px;overflow:hidden;background:#fff}
-.sh{background:#1F3864;color:#fff;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px;user-select:none}
-.st{font-size:13px;font-weight:600;flex:1}
-.sc{font-size:11px;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;white-space:nowrap}
-.ap{font-size:11px;background:#c0392b;padding:2px 8px;border-radius:20px;white-space:nowrap}
-.sb2{padding:8px 10px}
-.sb2.hidden{display:none}
-.plist{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
-.clabs{display:grid;grid-template-columns:1.4fr 124px 106px 106px 70px 36px;gap:6px;padding:0 4px 5px;font-size:10px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
-.pc{display:grid;grid-template-columns:1.4fr 124px 106px 106px 70px 36px;gap:6px;align-items:center;background:#f7f9fc;border-radius:8px;padding:7px 8px;border:1px solid #e0e7ef}
-.pc .pn,.pc .tr,.pc .t1,.pc .t2,.pc .pw,.pc .wb{min-width:0}
-.pc input,.pc select{padding:5px 7px;border-radius:6px;border:1px solid #ccd6e0;background:#fff;font-size:12px;width:100%}
-.pc select.ok{border-color:#2E75B6;color:#1F3864;font-weight:600;background:#e8f0fe}
-.prezzo-wrap{display:flex;align-items:stretch;border:1px solid #ccd6e0;border-radius:6px;background:#fff;overflow:hidden;width:100%}
-.prezzo-wrap.ok{border-color:#2E75B6}
-.euro{padding:0 5px;font-size:11px;color:#888;background:#f0f4f8;border-right:1px solid #ccd6e0;display:flex;align-items:center}
-.prezzo-wrap input{border:none;padding:5px 5px;font-size:12px;background:transparent;width:100%;min-width:0}
-.prezzo-wrap input:focus{outline:none}
-.wa-btn{display:flex;align-items:center;justify-content:center;height:30px;width:100%;border-radius:6px;background:#25D366;color:#fff;text-decoration:none;font-size:11px;font-weight:700;border:none;cursor:pointer}
-.wa-btn:hover{background:#1da851}
-.wa-btn.nd{background:#b0bec5;cursor:default;pointer-events:none}
-.msg{font-size:14px;color:#888;padding:20px 0;text-align:center}
-.err{font-size:13px;color:#c0392b;padding:10px 14px;background:#fdf2f2;border-radius:8px;margin:8px 0;border:1px solid #f5c6c6}
-.footer{display:flex;gap:8px;margin-top:12px}
-.prt{padding:8px 18px;border-radius:8px;border:none;background:#1F3864;color:#fff;font-size:13px;cursor:pointer;font-weight:600}
-.prt:hover{background:#2E75B6}
-@media(max-width:640px){
-  body{padding:8px}
-  .clabs{display:none}
-  .pc{grid-template-columns:1fr 1fr;gap:6px}
-  .pc .pn{grid-column:1/-1}
-  .pc .tr{grid-column:1/-1}
-  .pc .t1{grid-column:1}
-  .pc .t2{grid-column:2}
-  .pc .pw{grid-column:1}
-  .pc .wb{grid-column:2;display:flex;align-items:center}
-  .pc input,.pc select,.prezzo-wrap input{font-size:13px;padding:8px 9px}
-  .euro{font-size:13px;padding:0 8px}
-  .wa-btn{height:40px;font-size:13px}
-}
-@media print{
-  .header span,.top,.nav,.tbar-right,.footer{display:none!important}
-  .tbar{border-radius:0}
-  .slot{break-inside:avoid}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PosturalLAB — Feedback</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7f9;
+      color: #1f2933;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .box {
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+      padding: 34px 28px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: #0d2f3f;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      color: #1A5C7A;
+      font-size: 14px;
+      margin-bottom: 24px;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 17px;
+      line-height: 1.6;
+      margin: 0 0 18px;
+    }
+
+    .small {
+      margin-top: 22px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 16px;
+      background: #1A5C7A;
+      color: #ffffff;
+      padding: 14px 26px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-<div class="header">
-  <h1>Agenda PosturalLAB</h1>
-  <span id="last-update" style="font-size:11px;opacity:.7"></span>
-</div>
-<div class="top">
-  <button class="sb active" onclick="setStudio('Boccetta')">Studio Boccetta</button>
-  <button class="sb" onclick="setStudio('Trento')">Studio Trento</button>
-</div>
-<div class="nav">
-  <button class="nav-btn" onclick="changeDay(-1)">← Indietro</button>
-  <span class="nav-label" id="nav-label">Oggi</span>
-  <button class="nav-btn" onclick="changeDay(1)">Avanti →</button>
-</div>
-<div class="tbar">
-  <span class="tbar-title" id="ttxt">—</span>
-  <div class="tbar-right">
-    <span class="badge" id="cbadge">—</span>
-    <button class="rbtn" onclick="carica()">↻ Aggiorna</button>
-  </div>
-</div>
-<div class="abar" id="abar"></div>
-<div id="main"></div>
-<div class="footer">
-  <button class="prt" onclick="window.print()">Stampa / PDF</button>
-</div>
+  <main class="box">
+    <h1>PosturalLAB</h1>
+    <div class="subtitle">Prof. Giuseppe Gangeri · Messina</div>
 
-<script>
-const SCRIPT_URL  = "https://script.google.com/macros/s/AKfycbzWQb9MZJMt6HyQTbZAsU67TLNoCDYHswJgwIWMujRRjWIaGUdOmNw_e1sJmlbZSaPoQQ/exec";
-const TERAPISTI   = ["Alessia","Erika","Elvira","Fabrizio","Federico","Gaetano","Giada","Manuel","Natale","Noemi","Peppe","Professore"];
-const TRATTAMENTI = ["Consulenza","Consulenza e Esame Baropodometrico","Esame Baropodometrico","Fisioterapia","Massaggio","Palestra","Pilates","Postura","Recupero Funzionale","Tai Chi"];
-const ALIAS       = {alessia:"Alessia",erika:"Erika",elvira:"Elvira",fabrizio:"Fabrizio",fede:"Federico",federico:"Federico",natale:"Natale",gaetano:"Gaetano",peppe:"Peppe",giada:"Giada",noemi:"Noemi",manu:"Manuel",manuel:"Manuel"};
-const GIORNI_L    = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
+    <p>
+      Grazie per aver aperto il link.
+    </p>
 
-let studio="Boccetta", offset=0, calData=null, slotsMap={}, waData={};
+    <p>
+      La pagina per lasciare la tua opinione è momentaneamente in aggiornamento.
+    </p>
 
-function escH(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
-function parseAssenti(note){
-  if(!note) return [];
-  const out=[];
-  for(const m of note.matchAll(/No\s+(\w+)/gi)){ const k=m[1].toLowerCase(); if(ALIAS[k]) out.push(ALIAS[k]); }
-  return out;
-}
-function fmtT(iso){ const d=new Date(iso); return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'); }
-function dayLabel(n){
-  if(n===0) return 'Oggi'; if(n===1) return 'Domani'; if(n===-1) return 'Ieri';
-  const d=new Date(); d.setDate(d.getDate()+n);
-  return GIORNI_L[d.getDay()]+' '+d.getDate()+'/'+(d.getMonth()+1);
-}
-function changeDay(d){ offset+=d; carica(); }
-function setStudio(s){
-  studio=s;
-  document.querySelectorAll('.sb').forEach(b=>b.classList.toggle('active',b.textContent===`Studio ${s}`));
-  if(calData) render(); else carica();
-}
-function jsonp(url,cb){
-  const name='cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-  const script=document.createElement('script');
-  const timer=setTimeout(()=>{ delete window[name]; script.remove(); if(cb) cb(null,'timeout'); },12000);
-  window[name]=function(data){ clearTimeout(timer); delete window[name]; script.remove(); if(cb) cb(data); };
-  script.src=url+(url.includes('?')?'&':'?')+'callback='+name;
-  document.head.appendChild(script);
-}
+    <p>
+      Per informazioni puoi contattare direttamente lo studio.
+    </p>
 
-// ── CARICA ────────────────────────────────────────────────────
-function carica(){
-  document.getElementById('nav-label').textContent=dayLabel(offset);
-  document.getElementById('main').innerHTML='<div class="msg">Carico dal calendario...</div>';
-  document.getElementById('cbadge').textContent='—';
-  document.getElementById('abar').className='abar';
-  jsonp(SCRIPT_URL+'?giorni='+offset, function(data,err){
-    if(err||!data){ document.getElementById('main').innerHTML='<div class="err">Errore di connessione. Riprova.</div>'; return; }
-    calData=data;
-    if(!calData.assegnazioni) calData.assegnazioni={};
-    waData = calData.waLinks || {};
-    document.getElementById('last-update').textContent='Aggiornato: '+new Date().toLocaleTimeString('it-IT');
-    render();
-  });
-}
+    <a class="button" href="https://www.giuseppegangeri.it/contatti/">
+      Contatta lo studio
+    </a>
 
-// ── AGGIORNAMENTO DB AL CLICK WA ─────────────────────────────
-// Usa due canali: JSONP immediato + sessionStorage come backup.
-// Se il browser interrompe la richiesta (es. apre WhatsApp e naviga via),
-// l'aggiornamento parte comunque alla prossima apertura della pagina.
-function aggiornaDB(nomePaziente) {
-  if (!nomePaziente) return;
-  const params = new URLSearchParams({ action: 'setUltimaRichiesta', paziente: nomePaziente });
-  jsonp(SCRIPT_URL + '?' + params.toString(), null);
-}
-
-// All'avvio della pagina: invia eventuali aggiornamenti pendenti
-(function checkPendingUpdate() {
-  try {
-    const pending = sessionStorage.getItem('pendingWAUpdate');
-    if (pending) {
-      sessionStorage.removeItem('pendingWAUpdate');
-      aggiornaDB(pending);
-    }
-  } catch(e) {}
-})();
-
-// ── CLICK BOTTONE WA ──────────────────────────────────────────
-function inviaWA(el) {
-  const linkWA = el.dataset.wa;
-  const key    = el.dataset.key;
-  // Disabilita subito il bottone
-  el.className = 'wa-btn nd';
-  el.onclick   = null;
-  if(key && waData[key]) delete waData[key];
-  const nomePaziente = key ? key.split('|')[0] : '';
-  // Canale 1: JSONP immediato
-  aggiornaDB(nomePaziente);
-  // Canale 2: backup in sessionStorage (inviato alla riapertura se JSONP fallisce)
-  try { sessionStorage.setItem('pendingWAUpdate', nomePaziente); } catch(e) {}
-  // Apri WhatsApp
-  window.open(linkWA, '_blank');
-}
-
-function getSaved(fascia,paziente){ return (calData.assegnazioni||{})[`${studio}|${fascia}|${paziente}`]||{terapista:'',terapista2:'',prestazione:'',prezzo:''}; }
-function updateLocal(fascia,paziente,t1,t2,trattamento,prezzo){
-  if(!calData.assegnazioni) calData.assegnazioni={};
-  calData.assegnazioni[`${studio}|${fascia}|${paziente}`]={terapista:t1,terapista2:t2,prestazione:trattamento,prezzo};
-}
-function salva(fascia,paziente,t1,t2,trattamento,prezzo){
-  updateLocal(fascia,paziente,t1,t2,trattamento,prezzo);
-  const params=new URLSearchParams({action:'save',data:calData.data,studio,fascia,paziente,terapista:t1||'',terapista2:t2||'',prestazione:trattamento||'',prezzo:prezzo||''});
-  jsonp(SCRIPT_URL+'?'+params.toString(),null);
-}
-function fasceOverlap(f1,f2){
-  const toMin=t=>{const[h,m]=t.split(':');return parseInt(h)*60+parseInt(m);};
-  const p1=f1.split('–'),p2=f2.split('–');
-  if(p1.length<2||p2.length<2) return false;
-  const[s1,e1]=p1.map(toMin),[s2,e2]=p2.map(toMin);
-  return s1<e2&&s2<e1;
-}
-function getOccupatiSlot(fascia,pazienteEscluso){
-  const altro=studio==='Boccetta'?'Trento':'Boccetta';
-  const pz=slotsMap[fascia]?.pz||[];
-  const daCorrente=pz.filter(p=>p!==pazienteEscluso).flatMap(p=>{const s=getSaved(fascia,p);return[s.terapista,s.terapista2].filter(Boolean);});
-  const evA=(calData.studi||{})[altro]||[];
-  const daAltro=evA.filter(ev=>{if(ev.tuttoCiorno)return false;return fasceOverlap(fmtT(ev.inizio)+'–'+fmtT(ev.fine),fascia);}).flatMap(ev=>{const fA=fmtT(ev.inizio)+'–'+fmtT(ev.fine);return(ev.titolo||'').replace(/^\([^)]+\)\s*/,'').split('/').map(s=>s.trim()).filter(Boolean).flatMap(p=>{const s=(calData.assegnazioni||{})[`${altro}|${fA}|${p}`];return s?[s.terapista,s.terapista2].filter(Boolean):[];});});
-  return[...new Set([...daCorrente,...daAltro])];
-}
-function buildOpts(fascia,paziente,assentiSlot,anche,selezionato){
-  const occupati=getOccupatiSlot(fascia,paziente);
-  const escludi=[...new Set([...assentiSlot,...occupati,...anche])];
-  const disp=TERAPISTI.filter(t=>!escludi.includes(t));
-  if(selezionato&&!disp.includes(selezionato)) disp.unshift(selezionato);
-  return disp.map(c=>`<option value="${c}"${selezionato===c?' selected':''}>${c}</option>`).join('');
-}
-function findWALink(paziente){
-  const sStudio=studio==='Boccetta'?'Boccetta':'Via Trento';
-  const pLow=paziente.toLowerCase().trim();
-  for(const[key,val] of Object.entries(waData)){
-    const parts=key.split('|'); if(parts.length<2) continue;
-    const[nome,sedea]=parts;
-    if(sedea!==sStudio) continue;
-    const nLow=nome.toLowerCase();
-    const primo=nLow.split(' ')[0];
-    if(nLow.includes(pLow)||pLow.includes(primo)) return{...val,key};
-  }
-  return null;
-}
-function buildRow(p,pi,si,fascia,assentiSlot){
-  const saved=getSaved(fascia,p);
-  const av=saved.terapista||'',av2=saved.terapista2||'',tv=saved.prestazione||'',prv=saved.prezzo||'';
-  const pEsc=p.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
-  const fEsc=fascia.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const optsT1=buildOpts(fascia,p,assentiSlot,av2?[av2]:[],av);
-  const optsT2=buildOpts(fascia,p,assentiSlot,av?[av]:[],av2);
-  const optsR=TRATTAMENTI.map(t=>`<option value="${t}"${tv===t?' selected':''}>${t}</option>`).join('');
-  const wa=findWALink(p);
-  // Bottone WA: usa data-wa e data-key per gestire click con inviaWA()
-  const waHtml=wa
-    ?`<button class="wa-btn" data-wa="${escH(wa.linkWA)}" data-key="${escH(wa.key)}" onclick="inviaWA(this)">WA</button>`
-    :`<button class="wa-btn nd" title="Non disponibile">WA</button>`;
-  return `<div class="pc">
-    <div class="pn"><input type="text" value="${p.replace(/"/g,'&quot;')}" placeholder="Nome" onchange="aggiornaP(${si},${pi},this.value,'${fEsc}')"></div>
-    <div class="tr"><select class="${tv?'ok':''}" onchange="salvaTrattamento('${fEsc}','${pEsc}',this)"><option value="">— Trattamento —</option>${optsR}</select></div>
-    <div class="t1"><select class="${av?'ok':''}" onchange="salvaTerapista1(${si},'${fEsc}','${pEsc}',this)"><option value="">— T1 —</option>${optsT1}</select></div>
-    <div class="t2"><select class="${av2?'ok':''}" onchange="salvaTerapista2(${si},'${fEsc}','${pEsc}',this)"><option value="">— T2 —</option>${optsT2}</select></div>
-    <div class="pw"><div class="prezzo-wrap${prv?' ok':''}"><span class="euro">€</span><input type="text" placeholder="0" value="${prv}" onchange="salvaPrezzo('${fEsc}','${pEsc}',this.value,this.closest('.prezzo-wrap'))"></div></div>
-    <div class="wb">${waHtml}</div>
-  </div>`;
-}
-function rerenderSlot(si){
-  const slots=Object.values(slotsMap).sort((a,b)=>a.f.localeCompare(b.f));
-  const sl=slots[si]; if(!sl) return;
-  const plistEl=document.querySelector(`#sb${si} .plist`); if(!plistEl) return;
-  plistEl.innerHTML=sl.pz.map((p,pi)=>buildRow(p,pi,si,sl.f,parseAssenti(sl.note))).join('');
-}
-function salvaTerapista1(si,fascia,paziente,sel){ sel.className=sel.value?'ok':''; const s=getSaved(fascia,paziente); salva(fascia,paziente,sel.value,s.terapista2,s.prestazione,s.prezzo); rerenderSlot(si); }
-function salvaTerapista2(si,fascia,paziente,sel){ sel.className=sel.value?'ok':''; const s=getSaved(fascia,paziente); salva(fascia,paziente,s.terapista,sel.value,s.prestazione,s.prezzo); rerenderSlot(si); }
-function salvaTrattamento(fascia,paziente,sel){ sel.className=sel.value?'ok':''; const s=getSaved(fascia,paziente); salva(fascia,paziente,s.terapista,s.terapista2,sel.value,s.prezzo); }
-function salvaPrezzo(fascia,paziente,val,wrap){ wrap.className='prezzo-wrap'+(val?' ok':''); const s=getSaved(fascia,paziente); salva(fascia,paziente,s.terapista,s.terapista2,s.prestazione,val); }
-function render(){
-  if(!calData) return;
-  const eventi=(calData.studi||{})[studio]||[];
-  document.getElementById('ttxt').textContent=(calData.data||'')+' — Studio '+studio;
-  slotsMap={};
-  eventi.forEach(ev=>{
-    if(ev.tuttoCiorno) return;
-    const f=fmtT(ev.inizio)+'–'+fmtT(ev.fine);
-    if(!slotsMap[f]) slotsMap[f]={f,pz:[],note:''};
-    const t=ev.titolo||'';
-    const nm=t.match(/^\(([^)]+)\)\s*/);
-    if(nm&&/no\s+\w+/i.test(nm[1])) slotsMap[f].note=nm[1];
-    t.replace(/^\([^)]+\)\s*/,'').split('/').map(s=>s.trim()).filter(Boolean).forEach(p=>slotsMap[f].pz.push(p));
-  });
-  const slots=Object.values(slotsMap).sort((a,b)=>a.f.localeCompare(b.f));
-  const tuttiA=[...new Set(slots.flatMap(s=>parseAssenti(s.note)))];
-  const abar=document.getElementById('abar');
-  if(tuttiA.length){abar.className='abar show';abar.innerHTML='Assenti: <strong>'+tuttiA.join(', ')+'</strong> — esclusi dai menu';}
-  else abar.className='abar';
-  if(!slots.length){ document.getElementById('main').innerHTML='<p class="msg">Nessun appuntamento.</p>'; document.getElementById('cbadge').textContent='0 pazienti'; return; }
-  document.getElementById('main').innerHTML=slots.map((sl,si)=>{
-    const assA=parseAssenti(sl.note),cnt=sl.pz.length;
-    const rows=sl.pz.map((p,pi)=>buildRow(p,pi,si,sl.f,assA)).join('');
-    const pill=assA.length?`<span class="ap">Assenti: ${assA.join(', ')}</span>`:'';
-    return `<div class="slot">
-      <div class="sh" onclick="document.getElementById('sb${si}').classList.toggle('hidden')">
-        <span class="st">${sl.f}</span>${pill}<span class="sc">${cnt} pazient${cnt===1?'e':'i'}</span>
-      </div>
-      <div class="sb2" id="sb${si}">
-        <div class="clabs"><span>Nome</span><span>Trattamento</span><span>Terapista 1</span><span>Terapista 2</span><span>Prezzo</span><span>WA</span></div>
-        <div class="plist">${rows}</div>
-      </div>
-    </div>`;
-  }).join('');
-  const tot=slots.reduce((a,s)=>a+s.pz.filter(p=>p.trim()).length,0);
-  document.getElementById('cbadge').textContent=tot+' pazient'+(tot===1?'e':'i');
-}
-function aggiornaP(si,pi,val,fascia){ if(slotsMap[fascia]) slotsMap[fascia].pz[pi]=val; }
-carica();
-</script>
+    <div class="small">
+      PosturalLAB · Prof. Giuseppe Gangeri
+    </div>
+  </main>
 </body>
 </html>
