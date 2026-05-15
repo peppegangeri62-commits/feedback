@@ -111,9 +111,25 @@
     font-size: 13px;
     color: var(--muted);
     min-height: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     transition: opacity 0.2s;
   }
+
+  .btn-confirm {
+    width: 100%;
+    padding: 14px;
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, opacity 0.2s;
+  }
+  .btn-confirm:hover:not(:disabled) { background: var(--blue-light); transform: translateY(-1px); }
+  .btn-confirm:disabled { background: #d1d5db; cursor: not-allowed; transform: none; opacity: 0.75; }
 
   /* PANELS */
   .panel { display: none; animation: fadeUp 0.3s ease; }
@@ -276,7 +292,7 @@
   <div class="body">
     <!-- RATING STEP -->
     <div id="ratingStep">
-      <p class="question">Valuta la tua esperienza di oggi</p>
+      <p class="question">Clicca direttamente sul numero di stelle che vuoi assegnarci, non una alla volta.</p>
       <div class="stars-wrap" id="stars">
         <span class="star" data-val="1">⭐</span>
         <span class="star" data-val="2">⭐</span>
@@ -285,6 +301,7 @@
         <span class="star" data-val="5">⭐</span>
       </div>
       <div class="rating-label" id="ratingLabel"></div>
+      <button class="btn-confirm" id="btnConfirmRating" onclick="confirmRating()" disabled>Conferma valutazione</button>
     </div>
 
     <!-- POSITIVE PANEL (4-5 stelle) -->
@@ -392,7 +409,14 @@ function highlightStars(n) {
 function selectRating(n) {
   selectedRating = n;
   highlightStars(n);
-  setTimeout(() => showPanel(n), 350);
+  const lbl = document.getElementById('ratingLabel');
+  lbl.textContent = 'Hai selezionato ' + n + (n === 1 ? ' stella' : ' stelle') + '. Premi Conferma valutazione.';
+  document.getElementById('btnConfirmRating').disabled = false;
+}
+
+function confirmRating() {
+  if (!selectedRating) return;
+  showPanel(selectedRating);
 }
 
 function showPanel(rating) {
